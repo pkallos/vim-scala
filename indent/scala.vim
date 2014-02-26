@@ -12,6 +12,9 @@
 setlocal indentexpr=GetScalaIndent()
 setlocal indentkeys=0{,0},0),!^F,<>>,o,O,e,=case,<CR>
 setlocal autoindent
+setlocal tabstop=2
+setlocal shiftwidth=2
+setlocal softtabstop=2
 
 "if exists("*GetScalaIndent")
 "    finish
@@ -88,7 +91,7 @@ function! scala#IsParentCase()
   let retvalue = -1
   if l != 0 && search('\%' . l . 'l\s*\<case\>', 'bnW')
     let retvalue = l
-  endif 
+  endif
   call setpos('.', savedpos)
   return retvalue
 endfunction
@@ -445,7 +448,7 @@ function! GetScalaIndent()
       call scala#ConditionalConfirm("8b")
       let prevCompleteLine = scala#GetLine(prevnonblank(completeLine - 1))
       " However, what actually started this part looks like it was a function
-      " definition, so we need to indent to that line instead.  This is 
+      " definition, so we need to indent to that line instead.  This is
       " actually pretty weak at the moment.
       if prevCompleteLine =~ '=\s*$'
         call scala#ConditionalConfirm("9b")
@@ -473,7 +476,7 @@ function! GetScalaIndent()
         call scala#ConditionalConfirm("8a")
         let prevCompleteLine = scala#GetLine(prevnonblank(completeLine - 1))
         " However, what actually started this part looks like it was a function
-        " definition, so we need to indent to that line instead.  This is 
+        " definition, so we need to indent to that line instead.  This is
         " actually pretty weak at the moment.
         if prevCompleteLine =~ '=\s*$'
           call scala#ConditionalConfirm("9a")
@@ -569,7 +572,7 @@ function! GetScalaIndent()
         let ind = ind - &shiftwidth
       elseif scala#CountParens(curline) < 0 && curline =~ '^\s*)' && scala#GetLine(scala#GetLineThatMatchesBracket('(', ')')) =~ '.*(\s*$'
         " Handles situations that look like this:
-        " 
+        "
         "   val a = func(
         "     10
         "   )
